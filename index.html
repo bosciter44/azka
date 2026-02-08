@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AZKA_SERVER | AI_IMAGE_PROCESSOR</title>
+    <style>
+        :root {
+            --neon-green: #39FF14;
+            --bg-black: #000000;
+            --card-gray: #0a0a0a;
+        }
+
+        body {
+            background-color: var(--bg-black);
+            color: var(--neon-green);
+            font-family: 'Courier New', Courier, monospace;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: auto;
+            border: 2px solid var(--neon-green);
+            padding: 20px;
+            box-shadow: 0 0 15px rgba(57, 255, 20, 0.4);
+        }
+
+        .header {
+            text-align: center;
+            border-bottom: 2px solid var(--neon-green);
+            padding-bottom: 15px;
+            margin-bottom: 25px;
+            letter-spacing: 4px;
+        }
+
+        .upload-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .drop-zone {
+            border: 1px dashed var(--neon-green);
+            height: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--card-gray);
+            cursor: pointer;
+            overflow: hidden;
+            position: relative;
+            font-size: 12px;
+        }
+
+        .drop-zone img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        textarea {
+            width: 100%;
+            background: #000;
+            color: var(--neon-green);
+            border: 1px solid var(--neon-green);
+            padding: 15px;
+            font-family: inherit;
+            font-size: 14px;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            flex: 1;
+            background: transparent;
+            color: var(--neon-green);
+            border: 2px solid var(--neon-green);
+            padding: 15px;
+            cursor: pointer;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: 0.3s;
+        }
+
+        .btn:hover {
+            background: var(--neon-green);
+            color: #000;
+            box-shadow: 0 0 20px var(--neon-green);
+        }
+
+        #terminal-response {
+            margin-top: 25px;
+            border: 1px solid var(--neon-green);
+            background: #050505;
+            padding: 15px;
+            min-height: 200px;
+            white-space: pre-wrap;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .status-msg {
+            color: yellow;
+            animation: blink 1s infinite;
+            display: none;
+            margin-bottom: 10px;
+        }
+
+        @keyframes blink { 50% { opacity: 0; } }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>[ AZKA_STABLE_SERVER_V1 ]</h1>
+    </div>
+
+    <div class="upload-grid">
+        <div class="drop-zone" onclick="triggerFile(0)"><span id="s0">UPLOAD_01</span></div>
+        <div class="drop-zone" onclick="triggerFile(1)"><span id="s1">UPLOAD_02</span></div>
+        <div class="drop-zone" onclick="triggerFile(2)"><span id="s2">UPLOAD_03</span></div>
+        <div class="drop-zone" onclick="triggerFile(3)"><span id="s3">UPLOAD_04</span></div>
+    </div>
+
+    <input type="file" id="file-0" hidden onchange="handlePreview(event, 0)">
+    <input type="file" id="file-1" hidden onchange="handlePreview(event, 1)">
+    <input type="file" id="file-2" hidden onchange="handlePreview(event, 2)">
+    <input type="file" id="file-3" hidden onchange="handlePreview(event, 3)">
+
+    <textarea id="promptInput" rows="3" placeholder="> MASUKKAN PERINTAH DISINI (Contoh: Gabungkan foto ini jadi 1 gambar keren)"></textarea>
+
+    <div class="btn-group">
+        <button class="btn" onclick="executeAI('auto')">AUTO_ENHANCE</button>
+        <button class="btn" onclick="executeAI('manual')">EXECUTE_PROMPT</button>
+    </div>
+
+    <div id="terminal-response">
+        <div id="loading" class="status-msg">> CONNECTING_TO_AZKA_CORE... BYPASSING_LIMITS... ANALYZING...</div>
+        <div id="output">> SYSTEM_IDLE. WAITING_FOR_COMMAND...</div>
+    </div>
+</div>
+
+<script type="importmap">
+{
+  "imports": {
+    "@google/generative-ai": "https://esm.run/@google/generative-ai"
+  }
+}
+</script>
+
+<script type="module">
+    import { GoogleGenerativeAI } from "@google/generative-ai";
+
+    // API KEY MILIK AZKA (Updated)
+    const API_KEY = "AIzaSyCI_wW3Km_vu97tluhTuhvWPJ_PhOzLd18";
+    const genAI = new GoogleGenerativeAI(API_KEY);
+
+    window.triggerFile = (idx) => document.getElementById(`file-${idx}`).click();
+
+    window.handlePreview = (event, idx) => {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                document.getElementsByClassName('drop-zone')[idx].innerHTML = `<img src="${e.target.result}" />`;
+            };
+            reader.readAsDataURL(file);
+        }
+    };
+
+    async function fileToPart(file) {
+        return new Promise((resolve) => {
+            const reader = new FileReader();
+            reader.onloadend = () => resolve({
+                inlineData: {
+                    data: reader.result.split(',')[1],
+                    mimeType: file.type
+                }
+            });
+            reader.readAsDataURL(file);
+        });
+    }
+
+    window.executeAI = async (mode) => {
+        const out = document.getElementById('output');
+        const load = document.getElementById('loading');
+        const promptText = document.getElementById('promptInput').value;
+
+        // Kumpulkan file
+        const files = [];
+        for(let i=0; i<4; i++) {
+            const f = document.getElementById(`file-${i}`).files[0];
+            if(f) files.push(f);
+        }
+
+        if (files.length === 0) return alert("Hacker! Upload minimal 1 gambar!");
+
+        load.style.display = "block";
+        out.innerHTML = "";
+
+        try {
+            // Gunakan model Gemini 1.5 Flash (Paling stabil untuk gambar)
+            const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+
+            const imageParts = await Promise.all(files.map(f => fileToPart(f)));
+            const finalPrompt = (mode === 'auto') 
+                ? "Bertindaklah sebagai AI editor profesional. Analisis dan berikan saran untuk meningkatkan kualitas visual foto-foto ini secara mendalam." 
+                : promptText;
+
+            const result = await model.generateContent([finalPrompt, ...imageParts]);
+            const response = await result.response;
+            const text = response.text();
+
+            load.style.display = "none";
+            out.innerHTML = `[ PROCESS_SUCCESS ]\n\n${text}`;
+
+        } catch (err) {
+            load.style.display = "none";
+            console.error(err);
+            out.innerHTML = `[ CRITICAL_ERROR ]\n\n${err.message}\n\n> INFO: Jika muncul 404, pastikan kamu membuka aplikasi ini lewat link GITHUB PAGES (https://), bukan file lokal.`;
+        }
+    };
+</script>
+
+</body>
+</html>
