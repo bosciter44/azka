@@ -3,116 +3,99 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AZKA_SERVER | FIXED_STABLE</title>
+    <title>AZKA_SERVER_V3_STABLE</title>
     <style>
         :root { --neon: #39FF14; --bg: #000; }
         body { background: var(--bg); color: var(--neon); font-family: 'Courier New', monospace; padding: 20px; margin: 0; }
-        .container { max-width: 900px; margin: auto; border: 2px solid var(--neon); padding: 20px; box-shadow: 0 0 15px rgba(57, 255, 20, 0.4); }
-        .header { text-align: center; border-bottom: 2px solid var(--neon); padding-bottom: 15px; margin-bottom: 25px; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; margin-bottom: 25px; }
-        .slot { border: 1px dashed var(--neon); height: 150px; display: flex; align-items: center; justify-content: center; background: #0a0a0a; cursor: pointer; overflow: hidden; }
+        .container { max-width: 800px; margin: auto; border: 2px solid var(--neon); padding: 20px; box-shadow: 0 0 20px rgba(57, 255, 20, 0.3); }
+        .header { text-align: center; border-bottom: 2px solid var(--neon); padding-bottom: 10px; margin-bottom: 20px; }
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; }
+        .slot { border: 1px dashed var(--neon); height: 150px; display: flex; align-items: center; justify-content: center; background: #0a0a0a; cursor: pointer; overflow: hidden; position: relative; }
         .slot img { width: 100%; height: 100%; object-fit: cover; }
         textarea { width: 100%; background: #000; color: var(--neon); border: 1px solid var(--neon); padding: 15px; box-sizing: border-box; font-family: inherit; margin-bottom: 15px; }
-        .btn-group { display: flex; gap: 10px; }
-        .btn { flex: 1; background: transparent; color: var(--neon); border: 2px solid var(--neon); padding: 15px; cursor: pointer; font-weight: bold; text-transform: uppercase; transition: 0.3s; }
+        .btn { width: 100%; background: transparent; color: var(--neon); border: 2px solid var(--neon); padding: 15px; cursor: pointer; font-weight: bold; text-transform: uppercase; letter-spacing: 2px; transition: 0.3s; }
         .btn:hover { background: var(--neon); color: #000; box-shadow: 0 0 20px var(--neon); }
-        #response-box { margin-top: 25px; border: 1px solid var(--neon); background: #050505; padding: 15px; min-height: 200px; white-space: pre-wrap; font-size: 13px; }
-        .blink { color: yellow; animation: blinker 1s infinite; display: none; }
-        @keyframes blinker { 50% { opacity: 0; } }
+        #terminal { margin-top: 20px; border: 1px solid var(--neon); background: #050505; padding: 15px; min-height: 150px; white-space: pre-wrap; font-size: 13px; }
+        .loader { color: yellow; display: none; animation: blink 1s infinite; }
+        @keyframes blink { 50% { opacity: 0; } }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <div class="header"><h1>[ AZKA_CORE_STABLE_V2 ]</h1></div>
+    <div class="header"><h1>[ AZKA_STABLE_V3 ]</h1></div>
+    
     <div class="grid">
-        <div class="slot" onclick="openF(0)">UPLOAD_01</div>
-        <div class="slot" onclick="openF(1)">UPLOAD_02</div>
-        <div class="slot" onclick="openF(2)">UPLOAD_03</div>
-        <div class="slot" onclick="openF(3)">UPLOAD_04</div>
+        <div class="slot" onclick="sel(0)">UPLOAD_01</div>
+        <div class="slot" onclick="sel(1)">UPLOAD_02</div>
     </div>
+
     <input type="file" id="f0" hidden onchange="pv(event, 0)">
     <input type="file" id="f1" hidden onchange="pv(event, 1)">
-    <input type="file" id="f2" hidden onchange="pv(event, 2)">
-    <input type="file" id="f3" hidden onchange="pv(event, 3)">
 
-    <textarea id="promptInput" rows="3" placeholder="> MASUKKAN PERINTAH (Gabungkan foto ini)"></textarea>
-    <div class="btn-group">
-        <button class="btn" onclick="runAI('auto')">AUTO_ENHANCE</button>
-        <button class="btn" onclick="runAI('manual')">EXECUTE_PROMPT</button>
-    </div>
+    <textarea id="cmd" rows="2" placeholder="> MASUKKAN PERINTAH (Contoh: Analisis kedua foto ini)"></textarea>
+    <button class="btn" onclick="execute()">PROSES SEKARANG</button>
 
-    <div id="response-box">
-        <div id="loading" class="blink">> BYPASSING_404... CONNECTING_TO_AZKA_SERVER...</div>
-        <div id="output">> SYSTEM_IDLE. READY.</div>
+    <div id="terminal">
+        <div id="ld" class="loader">> BYPASSING_ERRORS... CONNECTING_TO_STABLE_V1_CORE...</div>
+        <div id="out">> SYSTEM_READY. AWAITING_INPUT.</div>
     </div>
 </div>
 
-<script type="importmap">
-{ "imports": { "@google/generative-ai": "https://esm.run/@google/generative-ai" } }
-</script>
-
 <script type="module">
-    import { GoogleGenerativeAI } from "@google/generative-ai";
+    // MENGGUNAKAN VERSI SDK PALING STABIL
+    import { GoogleGenerativeAI } from "https://esm.run/@google/generative-ai";
 
-    const API_KEY = "AIzaSyA3fRRc7bQtcfCr2VRK4dBT4Knl9wIwXPU";
+    // API KEY BARU KAMU YANG DARI SCREENSHOT (Ld18/NIbM)
+    const API_KEY = "AIzaSyBCWzoYc4sXm-tbreqy2ga5jgaBXoGNIbM";
     const genAI = new GoogleGenerativeAI(API_KEY);
 
-    window.openF = (i) => document.getElementById(`f${i}`).click();
+    window.sel = (i) => document.getElementById(`f${i}`).click();
     window.pv = (e, i) => {
         const file = e.target.files[0];
         if (file) {
-            const reader = new FileReader();
-            reader.onload = (ev) => document.getElementsByClassName('slot')[i].innerHTML = `<img src="${ev.target.result}">`;
-            reader.readAsDataURL(file);
+            const r = new FileReader();
+            r.onload = (ev) => document.querySelectorAll('.slot')[i].innerHTML = `<img src="${ev.target.result}">`;
+            r.readAsDataURL(file);
         }
     };
 
-    async function f2p(f) {
-        return new Promise((res) => {
-            const r = new FileReader();
-            r.onloadend = () => res({ inlineData: { data: r.result.split(',')[1], mimeType: f.type } });
-            r.readAsDataURL(f);
-        });
-    }
+    window.execute = async () => {
+        const out = document.getElementById('out');
+        const ld = document.getElementById('ld');
+        const prompt = document.getElementById('cmd').value;
+        const files = [document.getElementById('f0').files[0], document.getElementById('f1').files[0]].filter(Boolean);
 
-    window.runAI = async (mode) => {
-        const out = document.getElementById('output');
-        const ld = document.getElementById('loading');
-        const txt = document.getElementById('promptInput').value;
-        const files = [0,1,2,3].map(i => document.getElementById(`f${i}`).files[0]).filter(Boolean);
-
-        if (files.length === 0) return alert("Upload minimal 1 foto!");
+        if (files.length === 0) return alert("Hacker, upload minimal 1 foto!");
 
         ld.style.display = "block";
         out.innerHTML = "";
 
-        // PERBAIKAN KRITIKAL: Mencoba 3 jalur model berbeda untuk menghindari 404
-        const modelsToTry = ["gemini-1.5-flash", "gemini-1.5-flash-latest", "gemini-pro-vision"];
-        let success = false;
+        try {
+            // FORCE MENGGUNAKAN VERSI STABIL GEMINI 1.5 FLASH
+            const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
-        for (let modelId of modelsToTry) {
-            if (success) break;
-            try {
-                // Gunakan model tanpa v1beta jika memungkinkan secara otomatis
-                const model = genAI.getGenerativeModel({ model: modelId });
-                const parts = await Promise.all(files.map(f => f2p(f)));
-                const pmt = (mode === 'auto') ? "Analisis dan gabungkan foto ini." : txt;
+            const parts = await Promise.all(files.map(async (f) => {
+                const b64 = await new Promise(r => {
+                    const reader = new FileReader();
+                    reader.onload = () => r(reader.result.split(',')[1]);
+                    reader.readAsDataURL(f);
+                });
+                return { inlineData: { data: b64, mimeType: f.type } };
+            }));
 
-                const res = await model.generateContent([pmt, ...parts]);
-                const result = await res.response;
-                out.innerHTML = `[ SUCCESS_VIA_${modelId.toUpperCase()} ]\n\n${result.text()}`;
-                success = true;
-            } catch (err) {
-                console.error(`Gagal dengan ${modelId}, mencoba model lain...`);
-            }
-        }
+            const result = await model.generateContent([prompt || "Analisis foto ini", ...parts]);
+            const response = await result.response;
+            
+            ld.style.display = "none";
+            out.innerHTML = `[ SUCCESS ]\n\n${response.text()}`;
 
-        ld.style.display = "none";
-        if (!success) {
-            out.innerHTML = `[ CRITICAL_ERROR ]\nSemua jalur API Google menolak koneksi. \n\nSOLUSI TERAKHIR: \nBuka Google AI Studio, buat API Key BARU, dan ganti kodenya.`;
+        } catch (err) {
+            ld.style.display = "none";
+            out.innerHTML = `[ ERROR ]\n${err.message}\n\nSaran: Jika masih 404, tunggu 5 menit agar Google mengaktifkan API Key baru kamu di server mereka.`;
         }
     };
 </script>
+
 </body>
 </html>
