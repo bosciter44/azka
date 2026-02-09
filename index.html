@@ -47,7 +47,7 @@
     import { GoogleGenerativeAI } from "https://esm.run/@google/generative-ai";
 
     // API KEY BARU KAMU YANG DARI SCREENSHOT (Ld18/NIbM)
-    const API_KEY = "AIzaSyBCWzoYc4sXm-tbreqy2ga5jgaBXoGNIbM";
+    const API_KEY = "AIzaSyCPvtc97p3zlGMeaX2nUtLwGlcWaGPtt90";
     const genAI = new GoogleGenerativeAI(API_KEY);
 
     window.sel = (i) => document.getElementById(`f${i}`).click();
@@ -73,7 +73,7 @@
 
         try {
             // FORCE MENGGUNAKAN VERSI STABIL GEMINI 1.5 FLASH
-            const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+            const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
 
             const parts = await Promise.all(files.map(async (f) => {
                 const b64 = await new Promise(r => {
