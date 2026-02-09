@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AZKA_SERVER_V3_STABLE</title>
+    <title>AZKA_SERVER_V3_STABLE_GPT</title>
     <style>
         :root { --neon: #39FF14; --bg: #000; }
         body { background: var(--bg); color: var(--neon); font-family: 'Courier New', monospace; padding: 20px; margin: 0; }
@@ -23,7 +23,7 @@
 <body>
 
 <div class="container">
-    <div class="header"><h1>[ AZKA_STABLE_V3 ]</h1></div>
+    <div class="header"><h1>[ AZKA_STABLE_V3_GPT ]</h1></div>
     
     <div class="grid">
         <div class="slot" onclick="sel(0)">UPLOAD_01</div>
@@ -33,22 +33,19 @@
     <input type="file" id="f0" hidden onchange="pv(event, 0)">
     <input type="file" id="f1" hidden onchange="pv(event, 1)">
 
-    <textarea id="cmd" rows="2" placeholder="> MASUKKAN PERINTAH (Contoh: Analisis kedua foto ini)"></textarea>
-    <button class="btn" onclick="execute()">PROSES SEKARANG</button>
+    <textarea id="cmd" rows="2" placeholder="> MASUKKAN PERINTAH CHATGPT (Contoh: Apa isi foto ini?)"></textarea>
+    <button class="btn" onclick="execute()">PROSES DENGAN CHATGPT</button>
 
     <div id="terminal">
-        <div id="ld" class="loader">> BYPASSING_ERRORS... CONNECTING_TO_STABLE_V1_CORE...</div>
-        <div id="out">> SYSTEM_READY. AWAITING_INPUT.</div>
+        <div id="ld" class="loader">> CONNECTING_TO_OPENAI_UPLINK... BYPASSING_FIREWALL...</div>
+        <div id="out">> SYSTEM_READY. AWAITING_CHATGPT_API_KEY.</div>
     </div>
 </div>
 
 <script type="module">
-    // MENGGUNAKAN VERSI SDK PALING STABIL
-    import { GoogleGenerativeAI } from "https://esm.run/@google/generative-ai";
-
-    // API KEY BARU KAMU YANG DARI SCREENSHOT (Ld18/NIbM)
-    const API_KEY = "AIzaSyDvp5tfrxipJFhNrxNkOY0ArOrtWGOdBpE";
-    const genAI = new GoogleGenerativeAI(API_KEY);
+    // --- KONFIGURASI API KEY ---
+    // Masukkan API Key OpenAI kamu di sini (Format: sk-proj-xxxx...)
+    const OPENAI_API_KEY = "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";
 
     window.sel = (i) => document.getElementById(`f${i}`).click();
     window.pv = (e, i) => {
@@ -63,36 +60,68 @@
     window.execute = async () => {
         const out = document.getElementById('out');
         const ld = document.getElementById('ld');
-        const prompt = document.getElementById('cmd').value;
-        const files = [document.getElementById('f0').files[0], document.getElementById('f1').files[0]].filter(Boolean);
+        const promptText = document.getElementById('cmd').value;
+        const fileElements = [document.getElementById('f0').files[0], document.getElementById('f1').files[0]].filter(Boolean);
 
-        if (files.length === 0) return alert("Hacker, upload minimal 1 foto!");
+        if (OPENAI_API_KEY === "MASUKKAN_API_KEY_CHATGPT_DISINI") {
+            return alert("Error: Kamu belum memasukkan API Key ChatGPT di dalam kode!");
+        }
+
+        if (fileElements.length === 0) return alert("Hacker, upload minimal 1 foto!");
 
         ld.style.display = "block";
         out.innerHTML = "";
 
         try {
-            // FORCE MENGGUNAKAN VERSI STABIL GEMINI 1.5 FLASH
-            const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
-
-            const parts = await Promise.all(files.map(async (f) => {
+            // Konversi file ke Base64 untuk OpenAI format
+            const imageContents = await Promise.all(fileElements.map(async (f) => {
                 const b64 = await new Promise(r => {
                     const reader = new FileReader();
                     reader.onload = () => r(reader.result.split(',')[1]);
                     reader.readAsDataURL(f);
                 });
-                return { inlineData: { data: b64, mimeType: f.type } };
+                return {
+                    type: "image_url",
+                    image_url: { url: `data:${f.type};base64,${b64}` }
+                };
             }));
 
-            const result = await model.generateContent([prompt || "Analisis foto ini", ...parts]);
-            const response = await result.response;
-            
+            // Payload untuk API OpenAI
+            const payload = {
+                model: "gpt-4o-mini", // Model tercepat & termurah yang mendukung visi
+                messages: [
+                    {
+                        role: "user",
+                        content: [
+                            { type: "text", text: promptText || "Apa yang ada di foto ini?" },
+                            ...imageContents
+                        ]
+                    }
+                ],
+                max_tokens: 1000
+            };
+
+            const response = await fetch("https://api.openai.com/v1/chat/completions", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${OPENAI_API_KEY}`
+                },
+                body: JSON.stringify(payload)
+            });
+
+            const result = await response.json();
+
+            if (!response.ok) {
+                throw new Error(result.error ? result.error.message : "Gagal terhubung ke OpenAI");
+            }
+
             ld.style.display = "none";
-            out.innerHTML = `[ SUCCESS ]\n\n${response.text()}`;
+            out.innerHTML = `[ GPT_SUCCESS ]\n\n${result.choices[0].message.content}`;
 
         } catch (err) {
             ld.style.display = "none";
-            out.innerHTML = `[ ERROR ]\n${err.message}\n\nSaran: Jika masih 404, tunggu 5 menit agar Google mengaktifkan API Key baru kamu di server mereka.`;
+            out.innerHTML = `[ GPT_ERROR ]\n${err.message}\n\nSaran: Pastikan saldo API OpenAI kamu mencukupi dan Key benar.`;
         }
     };
 </script>
