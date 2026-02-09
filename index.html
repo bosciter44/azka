@@ -1,130 +1,220 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AZKA_SERVER_V3_STABLE_GPT</title>
-    <style>
-        :root { --neon: #39FF14; --bg: #000; }
-        body { background: var(--bg); color: var(--neon); font-family: 'Courier New', monospace; padding: 20px; margin: 0; }
-        .container { max-width: 800px; margin: auto; border: 2px solid var(--neon); padding: 20px; box-shadow: 0 0 20px rgba(57, 255, 20, 0.3); }
-        .header { text-align: center; border-bottom: 2px solid var(--neon); padding-bottom: 10px; margin-bottom: 20px; }
-        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; }
-        .slot { border: 1px dashed var(--neon); height: 150px; display: flex; align-items: center; justify-content: center; background: #0a0a0a; cursor: pointer; overflow: hidden; position: relative; }
-        .slot img { width: 100%; height: 100%; object-fit: cover; }
-        textarea { width: 100%; background: #000; color: var(--neon); border: 1px solid var(--neon); padding: 15px; box-sizing: border-box; font-family: inherit; margin-bottom: 15px; }
-        .btn { width: 100%; background: transparent; color: var(--neon); border: 2px solid var(--neon); padding: 15px; cursor: pointer; font-weight: bold; text-transform: uppercase; letter-spacing: 2px; transition: 0.3s; }
-        .btn:hover { background: var(--neon); color: #000; box-shadow: 0 0 20px var(--neon); }
-        #terminal { margin-top: 20px; border: 1px solid var(--neon); background: #050505; padding: 15px; min-height: 150px; white-space: pre-wrap; font-size: 13px; }
-        .loader { color: yellow; display: none; animation: blink 1s infinite; }
-        @keyframes blink { 50% { opacity: 0; } }
-    </style>
+<meta charset="UTF-8">
+<title>Cyber Security Award</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Segoe UI', Tahoma, sans-serif;
+        background: radial-gradient(circle at top, #030b18, #061a2e, #020814);
+        color: #ffffff;
+    }
+
+    .certificate {
+        max-width: 900px;
+        margin: 40px auto;
+        background: linear-gradient(135deg, #02071b, #0a2140);
+        border: 6px solid #00ffe1;
+        border-radius: 22px;
+        padding: 45px;
+        box-shadow: 0 0 45px rgba(0,255,225,0.6);
+        position: relative;
+    }
+
+    .certificate::before {
+        content: "";
+        position: absolute;
+        inset: 18px;
+        border: 2px dashed rgba(0,255,225,0.35);
+        border-radius: 16px;
+    }
+
+    .header {
+        text-align: center;
+        position: relative;
+        z-index: 1;
+    }
+
+    .header i {
+        font-size: 88px;
+        color: #00ffe1;
+        text-shadow: 0 0 25px #00ffe1;
+    }
+
+    .header h1 {
+        margin: 12px 0 5px;
+        font-size: 36px;
+        letter-spacing: 4px;
+        color: #00ffe1;
+    }
+
+    .header h2 {
+        margin: 0;
+        font-size: 18px;
+        font-weight: normal;
+        color: #c8fdf7;
+    }
+
+    .line {
+        width: 100%;
+        height: 3px;
+        background: linear-gradient(90deg, transparent, #00ffe1, transparent);
+        margin: 32px 0;
+    }
+
+    .content {
+        text-align: center;
+        position: relative;
+        z-index: 1;
+    }
+
+    .content p {
+        font-size: 18px;
+        line-height: 1.8;
+        color: #e1fffb;
+    }
+
+    .name {
+        margin: 26px 0;
+        font-size: 34px;
+        font-weight: bold;
+        color: #ffffff;
+        text-shadow: 0 0 18px #00ffe1;
+    }
+
+    .badge {
+        display: inline-block;
+        margin: 26px 0;
+        padding: 14px 36px;
+        border-radius: 30px;
+        background: linear-gradient(90deg, #00ffe1, #00b2ff);
+        color: #00171a;
+        font-weight: bold;
+        font-size: 16px;
+        box-shadow: 0 0 18px rgba(0,255,225,0.9);
+    }
+
+    .thanks {
+        margin-top: 26px;
+        font-style: italic;
+        color: #bdfdf4;
+        font-size: 17px;
+    }
+
+    .footer {
+        margin-top: 40px;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        position: relative;
+        z-index: 1;
+    }
+
+    .date {
+        font-size: 14px;
+        color: #c8fdf7;
+        text-align: left;
+    }
+
+    .signature {
+        text-align: center;
+        min-width: 260px;
+    }
+
+    .signature .sign-name {
+        font-family: 'Brush Script MT', cursive;
+        font-size: 34px;
+        color: #00ffe1;
+        text-shadow: 0 0 18px #00ffe1;
+    }
+
+    .signature .sign-line {
+        margin: 6px auto;
+        width: 220px;
+        height: 2px;
+        background: linear-gradient(90deg, transparent, #00ffe1, transparent);
+    }
+
+    .signature .role {
+        font-size: 13px;
+        color: #c8fdf7;
+    }
+
+    .signature i {
+        margin-top: 6px;
+        color: #00ffe1;
+        font-size: 18px;
+    }
+</style>
 </head>
+
 <body>
 
-<div class="container">
-    <div class="header"><h1>[ AZKA_STABLE_V3_GPT ]</h1></div>
-    
-    <div class="grid">
-        <div class="slot" onclick="sel(0)">UPLOAD_01</div>
-        <div class="slot" onclick="sel(1)">UPLOAD_02</div>
+<div class="certificate">
+
+    <div class="header">
+        <i class="fa-solid fa-shield-halved"></i>
+        <h1>CYBER SECURITY AWARD</h1>
+        <h2>Official Membership Authorization</h2>
     </div>
 
-    <input type="file" id="f0" hidden onchange="pv(event, 0)">
-    <input type="file" id="f1" hidden onchange="pv(event, 1)">
+    <div class="line"></div>
 
-    <textarea id="cmd" rows="2" placeholder="> MASUKKAN PERINTAH CHATGPT (Contoh: Apa isi foto ini?)"></textarea>
-    <button class="btn" onclick="execute()">PROSES DENGAN CHATGPT</button>
+    <div class="content">
+        <p>
+            Sertifikat ini diberikan sebagai bentuk penghargaan dan peresmian
+            keanggotaan resmi kepada:
+        </p>
 
-    <div id="terminal">
-        <div id="ld" class="loader">> CONNECTING_TO_OPENAI_UPLINK... BYPASSING_FIREWALL...</div>
-        <div id="out">> SYSTEM_READY. AWAITING_CHATGPT_API_KEY.</div>
+        <div class="name">
+            Pandu Ahnan Habib
+        </div>
+
+        <p>
+            Atas dedikasi, ketelitian, dan integritas dalam bidang
+            <strong>Cyber Security & Network Protection</strong>.
+            Sertifikat ini menetapkan yang bersangkutan sebagai anggota resmi
+            yang berhak melakukan pengujian dan evaluasi keamanan jaringan.
+        </p>
+
+        <div class="badge">
+            <i class="fa-solid fa-network-wired"></i>
+            Uji Keamanan Jaringan Nasional
+        </div>
+
+        <p class="thanks">
+            Terima kasih atas komitmen menjaga sistem, melindungi data,
+            dan berdiri sebagai benteng pertahanan di dunia digital.
+            <br>
+            <strong>Secure the system. Protect the future.</strong>
+        </p>
     </div>
+
+    <div class="line"></div>
+
+    <div class="footer">
+        <div class="date">
+            <i class="fa-solid fa-calendar-days"></i><br>
+            Masa Berlaku:<br>
+            <strong>12 September 2017 – 12 September 2018</strong>
+        </div>
+
+        <div class="signature">
+            <div class="sign-name">CyberSec Authority</div>
+            <div class="sign-line"></div>
+            <div class="role">
+                Director of Cyber Security<br>
+                Indonesia
+            </div>
+            <i class="fa-solid fa-user-shield"></i>
+        </div>
+    </div>
+
 </div>
-
-<script type="module">
-    // --- KONFIGURASI API KEY ---
-    // Masukkan API Key OpenAI kamu di sini (Format: sk-proj-xxxx...)
-    const OPENAI_API_KEY = "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";
-
-    window.sel = (i) => document.getElementById(`f${i}`).click();
-    window.pv = (e, i) => {
-        const file = e.target.files[0];
-        if (file) {
-            const r = new FileReader();
-            r.onload = (ev) => document.querySelectorAll('.slot')[i].innerHTML = `<img src="${ev.target.result}">`;
-            r.readAsDataURL(file);
-        }
-    };
-
-    window.execute = async () => {
-        const out = document.getElementById('out');
-        const ld = document.getElementById('ld');
-        const promptText = document.getElementById('cmd').value;
-        const fileElements = [document.getElementById('f0').files[0], document.getElementById('f1').files[0]].filter(Boolean);
-
-        if (OPENAI_API_KEY === "MASUKKAN_API_KEY_CHATGPT_DISINI") {
-            return alert("Error: Kamu belum memasukkan API Key ChatGPT di dalam kode!");
-        }
-
-        if (fileElements.length === 0) return alert("Hacker, upload minimal 1 foto!");
-
-        ld.style.display = "block";
-        out.innerHTML = "";
-
-        try {
-            // Konversi file ke Base64 untuk OpenAI format
-            const imageContents = await Promise.all(fileElements.map(async (f) => {
-                const b64 = await new Promise(r => {
-                    const reader = new FileReader();
-                    reader.onload = () => r(reader.result.split(',')[1]);
-                    reader.readAsDataURL(f);
-                });
-                return {
-                    type: "image_url",
-                    image_url: { url: `data:${f.type};base64,${b64}` }
-                };
-            }));
-
-            // Payload untuk API OpenAI
-            const payload = {
-                model: "gpt-4o-mini", // Model tercepat & termurah yang mendukung visi
-                messages: [
-                    {
-                        role: "user",
-                        content: [
-                            { type: "text", text: promptText || "Apa yang ada di foto ini?" },
-                            ...imageContents
-                        ]
-                    }
-                ],
-                max_tokens: 1000
-            };
-
-            const response = await fetch("https://api.openai.com/v1/chat/completions", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${OPENAI_API_KEY}`
-                },
-                body: JSON.stringify(payload)
-            });
-
-            const result = await response.json();
-
-            if (!response.ok) {
-                throw new Error(result.error ? result.error.message : "Gagal terhubung ke OpenAI");
-            }
-
-            ld.style.display = "none";
-            out.innerHTML = `[ GPT_SUCCESS ]\n\n${result.choices[0].message.content}`;
-
-        } catch (err) {
-            ld.style.display = "none";
-            out.innerHTML = `[ GPT_ERROR ]\n${err.message}\n\nSaran: Pastikan saldo API OpenAI kamu mencukupi dan Key benar.`;
-        }
-    };
-</script>
 
 </body>
 </html>
