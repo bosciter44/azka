@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Activasi Server Cloud Linux</title>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #121212;
+        color: #e0f7fa;
+        margin: 0;
+    }
+
+    .container {
+        padding: 20px;
+        max-width: 700px;
+        margin: auto;
+    }
+
+    .menu {
+        background: #0288d1;
+        border-radius: 10px;
+        padding: 20px;
+        margin: 15px 0;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    .menu:hover {
+        background: #03a9f4;
+        transform: scale(1.03);
+    }
+
+    .price {
+        font-weight: bold;
+        font-size: 1.2em;
+        color: #00e5ff;
+        margin-top: 8px;
+    }
+
+    .currency {
+        font-size: 0.9em;
+        color: #b2ebf2;
+    }
+</style>
+
+<script>
+function goPayment(menu) {
+    if (menu === 1) {
+        window.location.href = "https://example.com/payment1";
+    } else if (menu === 2) {
+        window.location.href = "https://example.com/payment2";
+    } else if (menu === 3) {
+        window.location.href = "https://example.com/payment3";
+    }
+}
+</script>
+
+</head>
+
+<body>
+
+<!-- HEADER CYBER -->
+<div style="text-align:center; padding:25px; background:#0a192f; border-bottom:2px solid #00e5ff;">
+
+    <div style="font-size:60px;">🛡️</div>
+
+    <h1 style="margin:0; color:#00e5ff;">
+        Welcome To Server Cloud Linux
+    </h1>
+
+    <p style="margin-top:10px; color:#b2ebf2;">
+        Activasi dan Evaluasi Jaringan Local Seluruh Indonesia
+    </p>
+
+    <div style="
+        margin-top:18px;
+        display:inline-block;
+        background:#003c4d;
+        padding:12px 20px;
+        border-radius:10px;
+        box-shadow:0 0 12px rgba(0,229,255,0.4);
+        font-size:14px;
+        max-width:600px;">
+        <strong>System Notification:</strong><br>
+        Selamat datang di layanan Server Cloud Linux. 
+        Silakan pilih paket activasi server sesuai kebutuhan Anda.
+    </div>
+
+</div>
+
+<div class="container">
+
+    <!-- MENU -->
+    <div class="menu" onclick="goPayment(1)">
+        <h2>1. Activasi Server Cloud</h2>
+        <p class="price"><span class="currency">USD</span> 62.00</p>
+    </div>
+
+    <div class="menu" onclick="goPayment(2)">
+        <h2>2. Activasi Server Akses Situs Web Legal</h2>
+        <p class="price"><span class="currency">USD</span> 87.00</p>
+    </div>
+
+    <div class="menu" onclick="goPayment(3)">
+        <h2>3. Activasi Limited 1x24 Jam Cloud Base Indonesia</h2>
+        <p class="price"><span class="currency">USD</span> 115.00</p>
+    </div>
+
+    <!-- CARA AKTIVASI -->
+    <div style="margin-top:30px; padding:15px; background:#0d2b36; border-radius:10px;">
+        <h3>Cara Aktivasi</h3>
+        <ol>
+            <li>Pilih paket activasi server.</li>
+            <li>Lakukan pembayaran.</li>
+            <li>Sistem memproses aktivasi.</li>
+            <li>Data login dikirim ke pengguna.</li>
+            <li>Server siap digunakan.</li>
+        </ol>
+    </div>
+
+    <!-- SYARAT -->
+    <div style="margin-top:15px; padding:15px; background:#1b263b; border-radius:10px;">
+        <h3>Syarat Activasi</h3>
+        <ol>
+            <li>Memiliki sertifikasi atau keanggotaan IT resmi.</li>
+            <li>Memahami dasar coding dan Linux.</li>
+            <li>Perangkat harus sesuai spesifikasi server.</li>
+        </ol>
+    </div>
+
+    <!-- KETERANGAN -->
+    <div style="margin-top:15px; padding:15px; background:#1e1e1e; border-radius:10px;">
+        <h3>Keterangan</h3>
+        <p>Layanan untuk programmer, developer, dan teknisi jaringan.</p>
+        <p>Digunakan untuk akses cloud dan pengelolaan data.</p>
+    </div>
+
+    <!-- PERINGATAN -->
+    <div style="margin-top:15px; padding:15px; background:#2c2c2c; border-radius:10px; color:#ffcccb;">
+        <h3>Peringatan</h3>
+        <p>Penggunaan menjadi tanggung jawab pengguna.</p>
+        <p>Dilarang untuk aktivitas melanggar hukum.</p>
+    </div>
+
+    <!-- NOTIFIKASI -->
+    <div style="margin-top:15px; padding:15px; background:#003c4d; border-radius:10px;">
+        <h3>Notifikasi Sistem</h3>
+        <p>Support upload video & foto.</p>
+        <p>Tidak support file BIN, NET, ORG.</p>
+        <p>Tanpa lisensi tambahan.</p>
+        <p>Beberapa jaringan mungkin tidak kompatibel.</p>
+    </div>
+
+</div>
+
+</body>
+</html>
